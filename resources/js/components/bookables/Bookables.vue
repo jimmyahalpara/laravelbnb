@@ -4,13 +4,13 @@
     <div v-else>
       <div class="row mb-4" v-for="row in rows" :key="'row' + row">
         <div
-          class="col"
+          class="col d-flex align-items-streatch"
           v-for="(bookable, column) in bookablesInRow(row)"
           :key="'row' + row + column"
         >
           <bookable-list-item
             :item-title="bookable.title"
-            :item-content="bookable.content"
+            :item-description="bookable.description"
             :price="200"
           >
           </bookable-list-item>
@@ -54,43 +54,11 @@ export default {
   },
   created() {
     this.loading = true;
-    setTimeout(() => {
-      this.bookables = [
-        {
-          title: "Cheap Villa !!!",
-          content: "A very Cheap villa",
-        },
-        {
-          title: "Cheap Villa 2",
-          content: "A very Cheap villa 2",
-        },
-        {
-          title: "Cheap Villa 2",
-          content: "A very Cheap villa 2",
-        },
-        {
-          title: "Cheap Villa 2",
-          content: "A very Cheap villa 2",
-        },
-        {
-          title: "Cheap Villa 2",
-          content: "A very Cheap villa 2",
-        },
-        {
-          title: "Cheap Villa 2",
-          content: "A very Cheap villa 2",
-        },
-        {
-          title: "Cheap Villa 2",
-          content: "A very Cheap villa 2",
-        },
-        {
-          title: "Cheap Villa 2",
-          content: "A very Cheap villa 2",
-        },
-      ];
+    const request = axios.get('/api/bookables').then(response => {
+      this.bookables = response.data;
       this.loading = false;
-    }, 2000);
+      });
+    console.log(request);
   },
 };
 </script>

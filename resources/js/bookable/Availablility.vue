@@ -1,0 +1,61 @@
+<template>
+  <div>
+    <h6 class="text-uppercase text-secondary font-weight-bolder">
+      Check Availablity
+    </h6>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="from">From</label>
+        <input
+          type="text"
+          name="from"
+          class="form-control form-control-sm"
+          placeholder="Start Date"
+          id="from"
+          v-model="from"
+          @keyup.enter="check"
+        />
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="to">To</label>
+        <input
+          type="text"
+          name="to"
+          class="form-control form-control-sm"
+          placeholder="End Date"
+          id="to"
+          v-model="to"
+          @keyup.enter="check"
+        />
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-block w-100 my-2" @click="check">Check!</button>
+  </div>
+</template>
+
+<style scoped>
+label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: grey;
+  font-weight: bolder;
+}
+</style>
+
+<script>
+export default {
+  data() {
+    return {
+      from: null,
+      to: null
+    }
+  },
+  methods: {
+    check(){
+      alert('I will check something now!');
+    }
+  },
+}
+</script>

@@ -16,15 +16,18 @@
                 </div>
             </div>
             <div class="col-md-4">
-                Availablity & Pricing
+                <availablility></availablility>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-
+import Availablility from './Availablility';
 export default {
+    components: {
+        Availablility
+    },
     data() {
         return {
             bookable: null,

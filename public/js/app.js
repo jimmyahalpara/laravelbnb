@@ -5312,16 +5312,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+// import axios from 'axios';
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       from: null,
-      to: null
+      to: null,
+      loading: false,
+      status: null,
+      errors: null
     };
   },
   methods: {
     check: function check() {
-      alert('I will check something now!');
+      var _this = this;
+
+      this.loading = true;
+      this.errors = null;
+      axios.get("/api/bookables/".concat(this.$route.params.id, "/availability?from=").concat(this.from, "&to=").concat(this.to)).then(function (response) {
+        _this.status = response.status;
+      })["catch"](function (error) {
+        if (422 == error.response.status) {
+          _this.errors = error.response.data.errors;
+        }
+
+        _this.status = error.response.status;
+      }).then(function () {
+        return _this.loading = false;
+      });
+    }
+  },
+  computed: {
+    hasErorrs: function hasErorrs() {
+      return 422 == this.status && this.error != null;
+    },
+    hasAvailability: function hasAvailability() {
+      return 200 == this.status;
+    },
+    noAvailability: function noAvailability() {
+      return 400 == this.status;
     }
   }
 });
@@ -28994,6 +29023,7 @@ var render = function () {
       "button",
       {
         staticClass: "btn btn-secondary btn-block w-100 my-2",
+        attrs: { disabled: _vm.loading },
         on: { click: _vm.check },
       },
       [_vm._v("Check!")]

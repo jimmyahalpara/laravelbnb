@@ -14,7 +14,7 @@ class BookablesTableSeeder extends Seeder
      */
     public function run()
     {
-        Bookable::truncate();
+        // Bookable::truncate();
         Bookable::factory()->count(100)->create();
     }
 }

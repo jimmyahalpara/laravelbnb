@@ -31,7 +31,7 @@
         />
       </div>
     </div>
-    <button class="btn btn-secondary btn-block w-100 my-2" @click="check">Check!</button>
+    <button class="btn btn-secondary btn-block w-100 my-2" @click="check" :disabled="loading">Check!</button>
   </div>
 </template>
 
@@ -45,17 +45,47 @@ label {
 </style>
 
 <script>
+// import axios from 'axios';
+
 export default {
   data() {
     return {
       from: null,
-      to: null
+      to: null,
+      loading: false,
+      status: null,
+      errors: null
     }
   },
   methods: {
     check(){
-      alert('I will check something now!');
+      this.loading = true;
+      this.errors = null;
+      axios.get(`/api/bookables/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`)
+      .then(response => {
+        this.status = response.status
+        
+      }).catch(error => {
+        if (422 == error.response.status){
+          this.errors = error.response.data.errors;
+        }
+        this.status = error.response.status;
+      }).then(() => this.loading = false);
     }
   },
+
+  computed: {
+    hasErorrs() {
+      return 422 == this.status &&  this.error != null;
+    },
+
+    hasAvailability(){
+      return 200 == this.status;
+    },
+
+    noAvailability(){
+      return 400 == this.status;
+    }
+  }
 }
 </script>

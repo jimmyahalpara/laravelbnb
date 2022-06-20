@@ -16,10 +16,11 @@ class BookingFactory extends Factory
     
     public function definition()
     {
-        $from = Carbon::instance($this -> faker -> dateTimeBetween('-1 years', '+1 years'));
-        $to = Carbon::instance($this -> faker -> dateTimeBetween($from, '+1 years'));
+        $from = Carbon::instance($this -> faker -> dateTimeBetween('-2 months', '+1 years'));
+        $to = (clone $from) -> addDays(random_int(1, 10));
         return [
-
+            'from' => $from,
+            'to' => $to,
         ];
     }
 }

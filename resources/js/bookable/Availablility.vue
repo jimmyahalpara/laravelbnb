@@ -82,7 +82,6 @@ export default {
     hasAvailability(){
       return 200 == this.status;
     },
-
     noAvailability(){
       return 400 == this.status;
     }

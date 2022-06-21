@@ -14,6 +14,7 @@
                         </article>
                     </div>
                 </div>
+                <review-list></review-list>
             </div>
             <div class="col-md-4">
                 <availablility></availablility>
@@ -24,9 +25,11 @@
 
 <script>
 import Availablility from './Availablility';
+import ReviewList from './ReviewList';
 export default {
     components: {
-        Availablility
+        Availablility,
+        ReviewList
     },
     data() {
         return {

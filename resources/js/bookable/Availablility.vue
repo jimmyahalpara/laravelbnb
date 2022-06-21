@@ -2,6 +2,8 @@
   <div>
     <h6 class="text-uppercase text-secondary font-weight-bolder">
       Check Availablity
+      <span v-if="noAvailability" class="text-danger">(NOT AVAILABLE)</span>
+      <span v-if="hasAvailability" class="text-success">(AVAILABLE)</span>
     </h6>
 
     <div class="row">
@@ -15,7 +17,11 @@
           id="from"
           v-model="from"
           @keyup.enter="check"
+          :class="[{'is-invalid': this.errorFor('from')}]"
         />
+        <div class="invalid-feedback" v-for="(error, index) in this.errorFor('from')" :key="'from' + index">
+          {{ error }}
+        </div>
       </div>
 
       <div class="form-group col-md-6">
@@ -28,21 +34,18 @@
           id="to"
           v-model="to"
           @keyup.enter="check"
+          :class="[{'is-invalid': this.errorFor('to')}]"
         />
+        <div class="invalid-feedback" v-for="(error, index) in this.errorFor('to')" :key="'to' + index">
+          {{ error }}
+        </div>
       </div>
     </div>
     <button class="btn btn-secondary btn-block w-100 my-2" @click="check" :disabled="loading">Check!</button>
   </div>
 </template>
 
-<style scoped>
-label {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  color: grey;
-  font-weight: bolder;
-}
-</style>
+
 
 <script>
 // import axios from 'axios';
@@ -71,20 +74,33 @@ export default {
         }
         this.status = error.response.status;
       }).then(() => this.loading = false);
+    },
+    errorFor(field){
+      return this.hasErrors && this.errors[field] ? this.errors[field] : null;
     }
   },
 
   computed: {
-    hasErorrs() {
-      return 422 == this.status &&  this.error != null;
+    hasErrors() {
+      return 422 == this.status &&  this.errors != null;
     },
 
     hasAvailability(){
       return 200 == this.status;
     },
     noAvailability(){
-      return 400 == this.status;
+      return 404 == this.status;
     }
   }
 }
 </script>
+
+<style scoped>
+label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: grey;
+  font-weight: bolder;
+}
+
+</style>

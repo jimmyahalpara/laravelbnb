@@ -14,10 +14,10 @@
                         </article>
                     </div>
                 </div>
-                <review-list></review-list>
+                <review-list :bookable-id="Number(this.$route.params.id)"></review-list>
             </div>
             <div class="col-md-4">
-                <availablility></availablility>
+                <availablility :bookable-id="Number(this.$route.params.id)"></availablility>
             </div>
         </div>
     </div>

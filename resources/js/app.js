@@ -15,7 +15,8 @@ import moment from 'moment';
 import StartRating from "./shared/components/StartRating";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 window.Vue = require('vue').default;
 
@@ -36,7 +37,7 @@ window.Vue = require('vue').default;
 Vue.use(VueRouter);
 Vue.filter('fromNow', value => moment(value).fromNow());
 Vue.component("star-rating", StartRating);
-library.add(faStar)
+library.add(fas, far)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 

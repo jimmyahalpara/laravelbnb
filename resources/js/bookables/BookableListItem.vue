@@ -4,6 +4,7 @@
       <router-link :to="{ name: 'bookable', params: { id } }">
         <h1 class="card-title">{{ title }}</h1>
       </router-link>
+      <a href="/bookable/1">test</a>
       <p class="card-text">{{ description }}</p>
     </div>
   </div>

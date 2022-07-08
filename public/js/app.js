@@ -22088,6 +22088,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -22110,19 +22112,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       review: {
         rating: 5,
         content: null
-      }
+      },
+      existingReview: null,
+      loading: false
     };
   },
-  methods: {
-    onRatingChange: function onRatingChange(rating) {
-      console.log(rating);
-      this.review.rating = rating;
+  created: function created() {
+    var _this = this;
+
+    this.loading = true;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/reviews/".concat(this.$route.params.id)).then(function (response) {
+      _this.existingReview = response.data.data;
+    })["catch"](function (err) {}).then(function () {
+      _this.loading = false;
+    });
+  },
+  computed: {
+    alreadyReviewed: function alreadyReviewed() {
+      return this.existingReview != null;
     }
   }
 });
@@ -67831,41 +67854,55 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      { staticClass: "form-group" },
-      [
-        _c("label", { staticClass: "text-muted" }, [
-          _vm._v(
-            "\n            Select the star rating (1 is worst - 5 is best)\n        "
-          ),
+    _vm.loading
+      ? _c("div", [_vm._v("Loading ...")])
+      : _c("div", [
+          _vm.alreadyReviewed
+            ? _c("div", [
+                _c("h3", [
+                  _vm._v("You've already left a review for this booking!"),
+                ]),
+              ])
+            : _c("div", [
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { staticClass: "text-muted" }, [
+                      _vm._v(
+                        "\n          Select the star rating (1 is worst - 5 is best)\n        "
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "star-rating",
+                      {
+                        staticClass: "fa-3x",
+                        model: {
+                          value: _vm.review.rating,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.review, "rating", $$v)
+                          },
+                          expression: "review.rating",
+                        },
+                      },
+                      [_c("label", { attrs: { for: "content" } })]
+                    ),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-lg btn-primary btn-block w-100 mt-2",
+                  },
+                  [_vm._v("\n        Submit\n      ")]
+                ),
+              ]),
         ]),
-        _vm._v(" "),
-        _c(
-          "star-rating",
-          {
-            staticClass: "fa-3x",
-            model: {
-              value: _vm.review.rating,
-              callback: function ($$v) {
-                _vm.$set(_vm.review, "rating", $$v)
-              },
-              expression: "review.rating",
-            },
-          },
-          [_c("label", { attrs: { for: "content" } })]
-        ),
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "button",
-      { staticClass: "btn btn-lg btn-primary btn-block w-100 mt-2" },
-      [_vm._v("\n        Submit\n    ")]
-    ),
   ])
 }
 var staticRenderFns = [
@@ -67875,7 +67912,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
       _c("label", { staticClass: "text-muted", attrs: { for: "content" } }, [
-        _vm._v("Describe your experience with"),
+        _vm._v("\n          Describe your experience with\n        "),
       ]),
       _vm._v(" "),
       _c("textarea", {

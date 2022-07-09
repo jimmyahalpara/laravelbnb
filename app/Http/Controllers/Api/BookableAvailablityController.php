@@ -23,6 +23,8 @@ class BookableAvailablityController extends Controller
 
 
         return $bookable -> availableFor($data['from'], $data['to']) ? response() -> json([]) : response() -> json([], 404);
+
+        
         
     }
 }

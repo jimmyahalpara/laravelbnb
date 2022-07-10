@@ -29,7 +29,7 @@ class Booking extends Model
         return $query -> where('to', '>=', $from) -> where('from', '<=', $to);
     }
 
-    public static function findByReviewKay(String $key): Booking {
+    public static function findByReviewKay(String $key): ?Booking {
         return static::where('review_key', $key) -> with('bookable') -> first();
     }
 

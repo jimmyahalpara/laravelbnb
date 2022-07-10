@@ -16,7 +16,7 @@ class ReviewController extends Controller
 
     public function store(Request $request){
         $data = $request -> validate([
-            'id' => 'required|size:36',
+            'id' => 'required|size:36|unique:reviews',
             'content' => 'required|min:2',
             'rating' => 'required|in:1,2,3,4,5'
         ]);
@@ -32,7 +32,8 @@ class ReviewController extends Controller
         $booking -> save();
 
         $review = Review::make($data);
-        $review -> booking_id = $booking -> bookable_id;
+        $review -> booking_id = $booking -> id;
+        $review -> bookable_id = $booking -> bookable_id;
         $review -> save();
 
         return new ReviewResource($review);

@@ -14,6 +14,7 @@ import moment from 'moment';
 
 import StartRating from "./shared/components/StartRating";
 import FatalError from "./shared/components/FatalError.vue";
+import ValidationErrors from  "./shared/components/ValidationErrors";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -39,6 +40,7 @@ Vue.use(VueRouter);
 Vue.filter('fromNow', value => moment(value).fromNow());
 Vue.component("star-rating", StartRating);
 Vue.component("fatal-error", FatalError);
+Vue.component("v-errors", ValidationErrors);
 library.add(fas, far)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false

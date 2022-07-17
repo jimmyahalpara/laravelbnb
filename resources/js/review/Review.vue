@@ -9,12 +9,10 @@
             <div v-if="booking && !loading">
               <p>
                 Stayed at
-                <router-link
-                  :to="{
-                    name: 'bookable',
-                    params: { id: booking.bookable.id },
-                  }"
-                >
+                <router-link :to="{
+                  name: 'bookable',
+                  params: { id: booking.bookable.id },
+                }">
                   {{ booking.bookable.title }}
                 </router-link>
               </p>
@@ -42,28 +40,12 @@
               <label for="content" class="text-muted">
                 Describe your experience with
               </label>
-              <textarea
-                v-model="review.content"
-                class="form-control"
-                name="content"
-                cols="30"
-                rows="10"
-                :class="[{ 'is-invalid': errorFor('content') }]"
-              >
+              <textarea v-model="review.content" class="form-control" name="content" cols="30" rows="10"
+                :class="[{ 'is-invalid': errorFor('content') }]">
               </textarea>
-              <div
-                class="invalid-feedback"
-                v-for="(error, index) in errorFor('content')"
-                :key="'content' + index"
-              >
-                {{ error }}
-              </div>
+              <v-errors :errors="errorFor('content')"></v-errors>
             </div>
-            <button
-              @click.prevent="submit"
-              :disabled="sending"
-              class="btn btn-lg btn-primary btn-block w-100 mt-2"
-            >
+            <button @click.prevent="submit" :disabled="sending" class="btn btn-lg btn-primary btn-block w-100 mt-2">
               Submit
             </button>
           </div>
@@ -76,8 +58,10 @@
 <script>
 import axios from "axios";
 import { is422, is404 } from "../shared/utils/response";
+import validationErrors from "../shared/mixins/validationErrors";
 
 export default {
+  mixins: [validationErrors],
   data() {
     return {
       review: {
@@ -89,8 +73,7 @@ export default {
       loading: false,
       booking: null,
       error: false,
-      errors: null,
-      sending: false
+      sending: false,
     };
   },
   created() {
@@ -165,9 +148,7 @@ export default {
           this.sending = false;
         });
     },
-    errorFor(field){
-      return this.errors != null && this.errors[field] ? this.errors[field] : null;
-    }
   },
 };
 </script>
+
